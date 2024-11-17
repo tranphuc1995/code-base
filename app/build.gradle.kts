@@ -7,8 +7,11 @@ plugins {
 }
 
 android {
+
+    buildFeatures { viewBinding = true }
+
     namespace = "com.phucth.mycodebase"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.phucth.mycodebase"
@@ -60,12 +63,20 @@ dependencies {
     kapt(libs.hilt.android.compiler)
 
     //coroutine
-    implementation (libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
 
+    //viewmodel
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    //navigation
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.navigation.dynamic.features.fragment)
+
     //my library
-    implementation (libs.tranphuc.service)
-    implementation (libs.tranphuc.component)
+    implementation(libs.tranphuc.base)
+    implementation(libs.tranphuc.component)
 }
 
 kapt {
