@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.api.BaseVariantOutputImpl
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -7,8 +9,12 @@ plugins {
 }
 
 android {
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
 
-    buildFeatures { viewBinding = true }
+
 
     namespace = "com.phucth.mycodebase"
     compileSdk = 35
@@ -39,6 +45,23 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    flavorDimensions += listOf("environment")
+    productFlavors {
+        create("dev") {
+            dimension = "environment"
+            versionCode = 1
+            versionName = "1.0"
+            applicationId = "com.phucth.dev.mycodebase"
+            buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org\"")
+        }
+        create("pro") {
+            dimension = "environment"
+            versionCode = 1
+            versionName = "1.0"
+            applicationId = "com.phucth.mycodebase"
+            buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org.pro\"")
+        }
+    }
 }
 
 dependencies {
@@ -49,8 +72,15 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.mockito.android)
+    androidTestImplementation(libs.mockk.android)
 
     //retrofit
     implementation(libs.retrofit)

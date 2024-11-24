@@ -1,7 +1,7 @@
 package com.phucth.mycodebase.data.di
 
 import com.phucth.base.service.ClientBase
-import com.phucth.mycodebase.Config
+import com.phucth.mycodebase.BuildConfig
 import com.phucth.mycodebase.data.api.FilmApi
 import dagger.Module
 import dagger.Provides
@@ -23,6 +23,6 @@ class NetworkModule {
     @Provides
     @ActivityRetainedScoped
     fun provideFilmApi(okHttpClient: OkHttpClient): FilmApi {
-        return ClientBase(Config.BASE_URL, FilmApi::class.java).createClientApi(okHttpClient)
+        return ClientBase(BuildConfig.BASE_URL, FilmApi::class.java).createClientApi(okHttpClient)
     }
 }

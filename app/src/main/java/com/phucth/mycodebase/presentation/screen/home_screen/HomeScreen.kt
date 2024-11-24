@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.phucth.base.fragment.FragmentBase
+import com.phucth.base.model.StateScreen
 import com.phucth.mycodebase.databinding.HomeFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -25,8 +26,20 @@ class HomeScreen : FragmentBase<HomeFragmentBinding>(HomeFragmentBinding::inflat
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                homeViewModel.state.collect { listFilmModelUi ->
-                    println("${listFilmModelUi.size}")
+                homeViewModel.state.collect { state ->
+                    when (state) {
+                        is StateScreen.Loading -> {
+                            viewBinding?.tvTest?.text = "Loading"
+                        }
+
+                        is StateScreen.DataScreen -> {
+                            viewBinding?.tvTest?.text = state.data.toString()
+                        }
+
+                        is StateScreen.Error -> {
+
+                        }
+                    }
                 }
             }
         }
